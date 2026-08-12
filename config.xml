@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.wheelviz.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>WHEELVIZ</name>
+    <description>Visualizador de Rodas</description>
+    <author email="contato@wheelviz.com">WHEELVIZ</author>
+    <content src="index.html"/>
+    <access origin="*"/>
+    <allow-intent href="*"/>
+    <allow-navigation href="*"/>
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="Orientation" value="portrait"/>
+    <preference name="android-minSdkVersion" value="22"/>
+    <preference name="android-targetSdkVersion" value="33"/>
+    <preference name="StatusBarOverlaysWebView" value="false"/>
+    <preference name="StatusBarBackgroundColor" value="#0a0a0f"/>
+    <platform name="android">
+        <icon density="ldpi" src="www/res/icon/android/ldpi.png"/>
+        <icon density="mdpi" src="www/res/icon/android/mdpi.png"/>
+        <icon density="hdpi" src="www/res/icon/android/hdpi.png"/>
+        <icon density="xhdpi" src="www/res/icon/android/xhdpi.png"/>
+        <icon density="xxhdpi" src="www/res/icon/android/xxhdpi.png"/>
+        <icon density="xxxhdpi" src="www/res/icon/android/xxxhdpi.png"/>
+        <splash density="land-ldpi" src="www/res/screen/android/land-ldpi.png"/>
+        <splash density="land-mdpi" src="www/res/screen/android/land-mdpi.png"/>
+        <splash density="land-hdpi" src="www/res/screen/android/land-hdpi.png"/>
+        <splash density="land-xhdpi" src="www/res/screen/android/land-xhdpi.png"/>
+    </platform>
+</widget>

@@ -10,84 +10,109 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Setup Java JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version: 17
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
-    - name: Create project structure
-      run: |
-        mkdir -p app/src/main/java/com/wheelviz/app
-        mkdir -p app/src/main/res/values
-        mkdir -p app/src/main/assets/www
-        mkdir -p gradle/wrapper
-        cp www/index.html app/src/main/assets/www/
+      - name: Create directories
+        run: |
+          mkdir -p app/src/main/java/com/wheelviz/app
+          mkdir -p app/src/main/res/values
+          mkdir -p app/src/main/assets/www
+          mkdir -p gradle/wrapper
+          cp www/index.html app/src/main/assets/www/
 
-    - name: Create AndroidManifest.xml
-      run: |
-        cat > app/src/main/AndroidManifest.xml << 'EOF'
+      - name: Create AndroidManifest.xml
+        run: |
+          cat > app/src/main/AndroidManifest.xml << 'ANDROIDMANIFEST'
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.wheelviz.app">
     <application android:allowBackup="true" android:label="WHEELVIZ" android:hardwareAccelerated="true" android:usesCleartextTraffic="true">
         <activity android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTask">
-            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 </manifest>
-EOF
+ANDROIDMANIFEST
 
-    - name: Create resources
-      run: |
-        cat > app/src/main/res/values/strings.xml << 'EOF'
+      - name: Create strings.xml
+        run: |
+          cat > app/src/main/res/values/strings.xml << 'STRINGSXML'
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">WHEELVIZ</string></resources>
-EOF
-        cat > app/src/main/res/values/colors.xml << 'EOF'
-<?xml version="1.0" encoding="utf-8"?>
-<resources><color name="colorPrimary">#f59e0b</color><color name="colorPrimaryDark">#0a0a0f</color></resources>
-EOF
+<resources>
+    <string name="app_name">WHEELVIZ</string>
+</resources>
+STRINGSXML
 
-    - name: Create gradle files
-      run: |
-        cat > build.gradle << 'EOF'
+      - name: Create colors.xml
+        run: |
+          cat > app/src/main/res/values/colors.xml << 'COLORSXML'
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f59e0b</color>
+    <color name="colorPrimaryDark">#0a0a0f</color>
+</resources>
+COLORSXML
+
+      - name: Create root build.gradle
+        run: |
+          cat > build.gradle << 'ROOTBUILD'
 buildscript {
-    repositories { google(); mavenCentral() }
-    dependencies { classpath 'com.android.tools.build:gradle:8.1.0' }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0'
+    }
 }
-allprojects { repositories { google(); mavenCentral() } }
-EOF
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+ROOTBUILD
 
-        cat > settings.gradle << 'EOF'
-rootProject.name = "WHEELVIZ"
-include ':app'
-EOF
+      - name: Create settings.gradle
+        run: echo 'rootProject.name = "WHEELVIZ"' > settings.gradle && echo "include ':app'" >> settings.gradle
 
-        cat > gradle.properties << 'EOF'
+      - name: Create gradle.properties
+        run: |
+          cat > gradle.properties << 'GRADLEPROPS'
 org.gradle.jvmargs=-Xmx2048m
 android.useAndroidX=true
 android.enableJetifier=true
-EOF
+GRADLEPROPS
 
-        cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
+      - name: Create gradle-wrapper.properties
+        run: |
+          cat > gradle/wrapper/gradle-wrapper.properties << 'WRAPPERPROPS'
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-bin.zip
 zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
-EOF
+WRAPPERPROPS
 
-        cat > app/build.gradle << 'EOF'
+      - name: Create app/build.gradle
+        run: |
+          cat > app/build.gradle << 'APPBUILD'
 plugins {
     id 'com.android.application'
 }
 android {
-    namespace "com.wheelviz.app"
+    namespace 'com.wheelviz.app'
     compileSdk 34
     defaultConfig {
         applicationId "com.wheelviz.app"
@@ -97,29 +122,31 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release { minifyEnabled false }
+        release {
+            minifyEnabled false
+        }
     }
 }
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
 }
-EOF
+APPBUILD
 
-    - name: Get gradlew
-      run: |
-        curl -sL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o gradle.zip
-        unzip -q gradle.zip
-        mv gradle-8.4/gradlew .
-        chmod +x gradlew
-        rm -rf gradle.zip gradle-8.4
+      - name: Download Gradle
+        run: |
+          curl -sL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o gradle.zip
+          unzip -q gradle.zip
+          mv gradle-8.4/gradlew .
+          chmod +x gradlew
+          rm -rf gradle.zip gradle-8.4
 
-    - name: Build APK
-      run: ./gradlew assembleDebug --no-daemon
-      timeout-minutes: 20
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon
+        timeout-minutes: 25
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: WHEELVIZ-APK
-        path: app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 30
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WHEELVIZ-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30

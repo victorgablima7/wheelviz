@@ -10,9 +10,9 @@
     <preference name="DisallowOverscroll" value="true"/>
     <preference name="Orientation" value="portrait"/>
     <preference name="android-minSdkVersion" value="22"/>
-    <preference name="android-targetSdkVersion" value="33"/>
-    <preference name="StatusBarOverlaysWebView" value="false"/>
-    <preference name="StatusBarBackgroundColor" value="#0a0a0f"/>
+    <preference name="android-targetSdkVersion" value="34"/>
+    <preference name="SplashScreenDelay" value="0"/>
+    <preference name="AutoHideSplashScreen" value="true"/>
     <platform name="android">
         <icon density="ldpi" src="www/res/icon/android/ldpi.png"/>
         <icon density="mdpi" src="www/res/icon/android/mdpi.png"/>
@@ -20,9 +20,5 @@
         <icon density="xhdpi" src="www/res/icon/android/xhdpi.png"/>
         <icon density="xxhdpi" src="www/res/icon/android/xxhdpi.png"/>
         <icon density="xxxhdpi" src="www/res/icon/android/xxxhdpi.png"/>
-        <splash density="land-ldpi" src="www/res/screen/android/land-ldpi.png"/>
-        <splash density="land-mdpi" src="www/res/screen/android/land-mdpi.png"/>
-        <splash density="land-hdpi" src="www/res/screen/android/land-hdpi.png"/>
-        <splash density="land-xhdpi" src="www/res/screen/android/land-xhdpi.png"/>
     </platform>
 </widget>

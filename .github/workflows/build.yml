@@ -24,7 +24,10 @@ jobs:
         run: cordova create WheelVizApp com.wheelviz.app WHEELVIZ
       
       - name: Copy app files
-        run: cp www/index.html WheelVizApp/www/
+        run: |
+          cp www/index.html WheelVizApp/www/
+          cp -r www/res WheelVizApp/www/
+          cp config.xml WheelVizApp/
       
       - name: Add Android
         run: cd WheelVizApp && cordova platform add android
